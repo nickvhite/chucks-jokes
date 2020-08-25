@@ -1,12 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import 'fontsource-roboto';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 import * as serviceWorker from './serviceWorker';
+
+import { Provider } from 'react-redux';
+
+
+import App from './App';
+import configureStore from './store';
+
+export const store = configureStore();
+
+const theme = createMuiTheme({});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <App />
+        </Router>
+      </MuiThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
