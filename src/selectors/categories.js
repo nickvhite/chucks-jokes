@@ -7,7 +7,17 @@ export const selectList = createSelector(
   ({ list }) => list
 );
 
+export const selectCurrentCategory = createSelector(
+  getReducer,
+  ({ currentCategory }) => currentCategory
+);
+
 export const selectFetching = createSelector(
   getReducer,
   ({ fetching }) => fetching
+);
+
+export const selectShowedList = createSelector(
+  getReducer,
+  ({ showedList }) => showedList
 );

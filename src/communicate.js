@@ -4,12 +4,14 @@ const api = 'https://api.chucknorris.io/jokes/';
 
 const getQueryStringFromObject = (props) => {
   let del = '?';
-  return Object.keys(props).map((key, i) => {
-    if (i > 0) {
-      del = '&';
-    }
-    return `${del}${key}=${props[key]}`;
-  }).join('');
+  return props
+    ? Object.keys(props).map((key, i) => {
+      if (i > 0) {
+        del = '&';
+      }
+      return `${del}${key}=${props[key]}`;
+    }).join('')
+    : '';
 };
 
 const getRequest = ({ method = 'get', path, data }) => {

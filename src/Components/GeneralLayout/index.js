@@ -3,7 +3,9 @@ import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { Paper, Tabs, Tab } from "@material-ui/core";
 
-const GeneralLayout = ({ children, location, ...other }) => (
+import './styles.scss';
+
+const GeneralLayout = ({ children, location }) => (
   <Fragment>
     <Paper square>
       <Tabs value={location.pathname}>
@@ -21,7 +23,9 @@ const GeneralLayout = ({ children, location, ...other }) => (
         />
       </Tabs>
     </Paper>
-    {children}
+    <div className='content-container'>
+      {children}
+    </div>
   </Fragment>
 );
 

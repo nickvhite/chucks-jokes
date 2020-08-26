@@ -1,6 +1,6 @@
 import {
   GET_JOKE_REQUEST, GET_JOKE_SUCCESS, GET_JOKE_FAIL,
-  LIKE_JOKE, EDIT_JOKE, DELETE_JOKE
+  LIKE_JOKE, DELETE_JOKE
 } from '../actions/jokes';
 
 const initialState = {
@@ -18,16 +18,16 @@ const likeJoke = (id, favorites) => {
 
 const deleteJoke = (id, jokes) => jokes.filter(({ id: jokeId }) => jokeId !== id);
 
-const editJoke = ({ id, value }, jokes) => {
-  const newJokes = [...jokes];
-  newJokes.some((joke) => {
-    if (joke.id === id) {
-      joke.value = value;
+export const isJokeUniq = (joke, jokes) => {
+  let isUniq = true;
+  jokes.some(({ id }) => {
+    if (id === joke.id) {
+      isUniq = false;
       return true;
     }
     return false;
   });
-  return newJokes;
+  return isUniq;
 };
 
 const jokesReducer = (state = initialState, action) => {
@@ -35,15 +35,13 @@ const jokesReducer = (state = initialState, action) => {
     case GET_JOKE_REQUEST:
       return { ...state, fetching: true };
     case GET_JOKE_SUCCESS:
-      return { ...state, list: [...state.list, action.joke], fetching: false };
+      return { ...state, list: isJokeUniq(action.joke, state.list) ? [...state.list, action.joke] : state.list, fetching: false };
     case GET_JOKE_FAIL:
       return { ...state, fetching: false };
     case LIKE_JOKE:
       return { ...state, favorites: likeJoke(action.id, state.favorites) };
     case DELETE_JOKE:
-      return { ...state, jokes: deleteJoke(action.id, state.jokes) };
-    case EDIT_JOKE:
-      return { ...state, jokes: editJoke(action.payload, state.jokes) };
+      return { ...state, list: deleteJoke(action.id, state.list) };
     default:
       return state;
   }
